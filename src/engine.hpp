@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include "main.h"
 #include "tim.h"
-#include "lwip.h"
+//#include "lwip.h"
 #include "sensors/hcsr04.hpp"
 
 

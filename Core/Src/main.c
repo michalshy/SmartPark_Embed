@@ -18,7 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "lwip.h"
 #include "memorymap.h"
 #include "tim.h"
 #include "usart.h"
@@ -27,12 +26,21 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "main.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+int __io_putchar(int ch)
+{
+  if (ch == '\n') {
+    __io_putchar('\r');
+  }
 
+  HAL_UART_Transmit(&huart3, (uint8_t*)&ch, 1, HAL_MAX_DELAY);
+
+  return 1;
+}
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -48,16 +56,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-int __io_putchar(int ch)
-{
-  if (ch == '\n') {
-    __io_putchar('\r');
-  }
 
-  HAL_UART_Transmit(&huart3, (uint8_t*)&ch, 1, HAL_MAX_DELAY);
-
-  return 1;
-}
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -103,10 +102,8 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_OTG_HS_USB_Init();
   MX_TIM2_Init();
-  MX_LWIP_Init();
   /* USER CODE BEGIN 2 */
 
-  App();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -114,7 +111,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_SET);
+	  App();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
